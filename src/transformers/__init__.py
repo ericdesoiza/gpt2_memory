@@ -2476,6 +2476,7 @@ else:
             "GPT2ForTokenClassification",
             "GPT2LMHeadModel",
             "GPT2Model",
+            "GPT2ModelAugmented",
             "GPT2PreTrainedModel",
             "load_tf_weights_in_gpt2",
         ]
@@ -7440,6 +7441,7 @@ if TYPE_CHECKING:
             GPT2ForTokenClassification,
             GPT2LMHeadModel,
             GPT2Model,
+            GPT2ModelAugmented,
             GPT2PreTrainedModel,
             load_tf_weights_in_gpt2,
         )

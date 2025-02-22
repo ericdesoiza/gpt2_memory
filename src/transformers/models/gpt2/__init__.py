@@ -18,6 +18,9 @@ from ...utils.import_utils import define_import_structure
 
 
 if TYPE_CHECKING:
+    from .xformer_embeddingbag import *
+    from .colwise_embedding_bag import *
+    from .memory import *
     from .configuration_gpt2 import *
     from .modeling_flax_gpt2 import *
     from .modeling_gpt2 import *
