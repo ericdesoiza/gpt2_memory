@@ -1,4 +1,8 @@
 # Copyright (c) Meta Platforms, Inc. and affiliates.
+#################### ERIC ####################
+# Pulled from the Meta Memory Github Repo!!
+# Currently identical
+##############################################
 import torch
 import time
 from functools import partial

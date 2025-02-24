@@ -1,4 +1,10 @@
 # Copyright (c) Meta Platforms, Inc. and affiliates.
+#################### ERIC ####################
+# Pulled from the Meta Memory Github Repo!!
+# Currently identical except for line 155
+# Which was required to get the memory to work
+# After more than one block
+##############################################
 from logging import getLogger
 import math
 from typing import Optional
@@ -146,8 +152,7 @@ class HashingMemory(nn.Module):
                 HashingMemory.VALUES = self.values_u, self.values_v
         else:
             if not self.use_peer_variant:  # PK
-                #self.values = None
-                self.values = HashingMemory.VALUES
+                self.values = HashingMemory.VALUES # ORIGINALLY self.values = None
             else:  # PEER
                 self.values_u = None
                 self.values_v = None

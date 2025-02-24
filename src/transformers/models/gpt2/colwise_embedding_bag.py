@@ -1,4 +1,8 @@
 # Copyright (c) Meta Platforms, Inc. and affiliates
+#################### ERIC ####################
+# Pulled from the Meta Memory Github Repo!!
+# Currently identical
+##############################################
 from abc import ABC, abstractmethod
 from functools import partial
 from typing import Any, Dict, Optional, Tuple, Union

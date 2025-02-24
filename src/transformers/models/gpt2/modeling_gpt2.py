@@ -453,6 +453,14 @@ class GPT2Block(nn.Module):
         return outputs  # hidden_states, present, (attentions, cross_attentions)
 
 
+#################### ERIC ####################
+# Pulled from the GPT2Block class, added in the
+# Added a check for augmented layer indices
+# and conditional for replacing feed forward
+# with memory blocks.
+# REMEMBER to add a augmented_embedding_idxs
+# list to your config!
+##############################################
 class GPT2BlockAugmented(nn.Module):
     def __init__(self, config, layer_idx=None):
         super().__init__()
@@ -467,7 +475,6 @@ class GPT2BlockAugmented(nn.Module):
             self.crossattention = GPT2Attention(config=config, is_cross_attention=True, layer_idx=layer_idx)
             self.ln_cross_attn = nn.LayerNorm(hidden_size, eps=config.layer_norm_epsilon)
 
-        print("config hidden size:", config.hidden_size)
         if layer_idx in config.augmented_layer_idxs:
             self.feed_forward = HashingMemory(config.hidden_size, config.hidden_size)
         else:
@@ -1057,6 +1064,13 @@ class GPT2Model(GPT2PreTrainedModel):
             cross_attentions=all_cross_attentions,
         )
 
+
+#################### ERIC ####################
+# Pulled from the GPT2Model class, added in the
+# Added a check for augmented GPT2 blocks 
+# instead of the standard GPT2 blocks that
+# don't support Memory
+##############################################
 class GPT2ModelAugmented(GPT2PreTrainedModel):
     _supports_param_buffer_assignment = False
 
