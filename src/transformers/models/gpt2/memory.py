@@ -63,7 +63,7 @@ class HashingMemory(nn.Module):
         mem_v_dim=-1,  # Memory values dimension (-1 for automatic output dimension)
         mem_heads=4,  # Number of memory reading heads
         mem_knn=32,  # Number of memory slots to read / update - k-NN to the query
-        mem_share_values=True,  # Share values across memories
+        mem_share_values=False,  # Share values across memories
         # keys
         mem_n_keys=1024,  # Number of keys
         # queries
@@ -107,8 +107,6 @@ class HashingMemory(nn.Module):
         # initialize
         super().__init__()
         self.use_peer_variant = peer_variant
-        print(f"Initializing HashingMemory with peer_variant={self.use_peer_variant}") # ADD THIS LINE
-
 
         # global parameters
         self.input_dim = input_dim
@@ -141,6 +139,7 @@ class HashingMemory(nn.Module):
         self.original = not self.mem_share_values or HashingMemory.VALUES is None
 
         # initialize the values
+
         if self.original:
             if not self.use_peer_variant:  # PK
                 self.values = xFormerEmbeddingBag(self.size, self.v_dim)
@@ -308,15 +307,12 @@ class HashingMemory(nn.Module):
         scores = scores.view(bs, self.heads * knn)  # (bs, heads * knn)
 
         if not self.use_peer_variant:
-            print(f"Entering PK forward path (not peer_variant), self.use_peer_variant={self.use_peer_variant}") # ADD THIS LINE
-            print(f"Value of self.values before call: {self.values}, type: {type(self.values)}") # ADD THIS LINE
             output = self.values(indices, scores)  # (bs, v_dim)
             if self.v_proj and not self.swilu_proj:
                 output = self.value_proj(output)
             if self.swilu_proj:
                 output = self.value_proj(output * F.silu(self.swilu_projection(input)))
         else:
-            print(f"Entering PEER forward path (peer_variant), self.use_peer_variant={self.use_peer_variant}") # ADD THIS LINE
             u = self.values_u(indices)
             x = torch.einsum(
                 "bh, blh->bl", input, u

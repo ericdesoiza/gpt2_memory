@@ -531,10 +531,7 @@ class GPT2BlockAugmented(nn.Module):
 
         residual = hidden_states
         hidden_states = self.ln_2(hidden_states)
-        print(hidden_states.shape)
         feed_forward_hidden_states = self.feed_forward(hidden_states)
-        print(feed_forward_hidden_states.shape)
-        print("Was it here?")
         # residual connection
         hidden_states = residual + feed_forward_hidden_states
 
